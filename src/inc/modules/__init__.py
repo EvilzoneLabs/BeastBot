@@ -1,1 +1,1 @@
-__all__ =['hash', 'modmanagement', 'define', 'suggest', 'seen', 'tinyurl', 'testmodule', 'isup', 'sosearch', 'insult', 'hack', 'botadministration', 'announce', 'urban', 'urlparsing']
+__all__ =['seen', 'sosearch', 'isup', 'tinyurl', 'hack', 'urlparsing', 'suggest', 'testmodule', 'ezshorten', 'modmanagement', 'botadministration', 'urban', 'hash', 'define', 'insult', 'announce']
