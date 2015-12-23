@@ -59,15 +59,17 @@ def unshorten(line, irc):
             url = message[1].strip().lower()
         if urlparse(url).scheme == '':
 		    url = 'http://{}'.format(url)
-        shorturl = re.findall('http[s]?://ezl.ink/[a-zA-Z0-9]+', str(url))[0]
-        if shorturl:
-            r = requests.get(shorturl, allow_redirects = True)
-            if r.url == 'http://ezl.ink/index.php' and 'The url doesn\'t exist.' in r.text:
-                ircFunc.ircSay(msgto, '{0}, {1} doesn\'t exist in http://ezl.ink database, move on moron.'.format(username, shorturl))
-                return
-            ircFunc.ircSay(msgto '{0}, LongURL: {1}'.format(username, r.url), irc)
-        else:
+		try:
+            shorturl = re.findall('http[s]?://ezl.ink/[a-zA-Z0-9]+', str(url))[0]
+        except IndexError:
             ircFunc.ircSay(msgto, '{0}, that is no http://ezl.ink shortened url. Puddi\'s cousin. XD.'.format(username), irc)
+        try:
+            r = requests.get(shorturl, allow_redirects = True)
+        except requests.exceptions.ConnectionError as e:
+            ircFunc.ircSay(msgto, '{0}, {1} doesn\'t exist in http://ezl.ink database, move on moron.'.format(username, shorturl))
+                return
+        ircFunc.ircSay(msgto '{0}, LongURL: {1}'.format(username, r.url), irc)
+
     except IndexError as e:
 		#fricking no args
 		ircFunc.ircSay(msgto, '{0}, give me a URL to unshorten. Twart XD.'.format(username), irc)
